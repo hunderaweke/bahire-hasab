@@ -25,15 +25,11 @@ def findMetk(wenber) -> int:
     return metk
 
 
-tewsak = {'ቅዳሜ': 8, 'እሁድ': 7, 'ሰኞ': 6,
-          'ማግሰኞ': 5, 'ረቡዕ': 4, 'ሐሙስ': 3, 'አርብ': 2}
-
-
 def findBealeMetk(metk):
     if metk >= 15 and metk <= 30:
-        beale_metk = {f'መስከርም {metk}': 1}
+        beale_metk = f'መስከረም {metk}'
     elif metk >= 2 and metk <= 14:
-        beale_metk = {f'ጥቅምት {metk}': 2}
+        beale_metk = f'ጥቅምት {metk}'
     return beale_metk
 
 
@@ -44,26 +40,22 @@ def findDay(year, month, date):
     tnte_yon = tnteYon[meskerem1]
     astfe_wer = month*2
     day = (date+astfe_wer+tnte_yon) % 7
-    match day:
-        case 1:
-            day = "እሁድ"
-        case 2:
-            day = "ሰኞ"
-        case 3:
-            day = "ማግሰኞ"
-        case 4:
-            day = "ረቡዕ"
-        case 5:
-            day = "ሐሙስ"
-        case 6:
-            day = "አርብ"
-        case 0:
-            day = "ቅዳሜ"
+    Days = {4: 'ረቡዕ', 5: 'ሐሙስ', 6: 'አርብ',
+               7: 'ቅዳሜ', 1: 'እሁድ', 2: 'ሰኞ', 3: 'ማግሰኞ'}
+    day = Days[day]
     return day
 
 
-def findMebajaHamer(metk):
-    pass
+def findMebajaHamer(beale_metk, year):
+    Tewsak = {'ቅዳሜ': 8, 'እሁድ': 7, 'ሰኞ': 6,
+              'ማግሰኞ': 5, 'ረቡዕ': 4, 'ሐሙስ': 3, 'አርብ': 2}
+    Months = {'መስከረም': 1, 'ጥቅምት': 2}
+    beale_metk = [i for i in beale_metk.split()]
+    month = Months[beale_metk[0]]
+    day = findDay(year, month, int(beale_metk[1]))
+    tewsak = Tewsak[day]
+    mebaja_hamer = tewsak+metk if tewsak + metk < 30 else tewsak
+    return mebaja_hamer
 
 
 def findAmeteWengelawe(year):
@@ -87,7 +79,13 @@ def findMeskerem1(year):
     day = tnteKemer[tnte_kemer]
     return day
 
+def findNeneweh(mebaja)
 
 if '__main__' == __name__:
-    year, month, date = [int(i) for i in input("Date: ").split('/')]
-    print(findDay(year, month, date))
+    year = int(input("Year: "))
+    medeb = findMedeb(year)
+    wenber = findWenber(medeb)
+    metk = findMetk(wenber)
+    beale_metk = findBealeMetk(metk)
+    mebaja_hamer = findMebajaHamer(beale_metk, year)
+    print(mebaja_hamer)
