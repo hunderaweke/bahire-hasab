@@ -1,6 +1,5 @@
 
 
-
 def findMedeb(year) -> int:
     medeb = (year+5500) % 19
     return medeb
@@ -26,8 +25,8 @@ def findMetk(wenber) -> int:
     return metk
 
 
-tewsak = {'kidame': 8, 'ehud': 7, 'segno': 6,
-          'magsegno': 5, 'rebue': 4, 'hamus': 3, 'arb': 2}
+tewsak = {'ቅዳሜ': 8, 'እሁድ': 7, 'ሰኞ': 6,
+          'ማግሰኞ': 5, 'ረቡዕ': 4, 'ሐሙስ': 3, 'አርብ': 2}
 
 
 def findBealeMetk(metk):
@@ -38,6 +37,31 @@ def findBealeMetk(metk):
     return beale_metk
 
 
+def findDay(year, month, date):
+    meskerem1 = findMeskerem1(year)
+    tnteYon = {'ረቡዕ': 1, 'ሐሙስ': 2, 'አርብ': 3,
+               'ቅዳሜ': 4, 'እሁድ': 5, 'ሰኞ': 6, 'ማግሰኞ': 7}
+    tnte_yon = tnteYon[meskerem1]
+    astfe_wer = month*2
+    day = (date+astfe_wer+tnte_yon) % 7
+    match day:
+        case 1:
+            day = "እሁድ"
+        case 2:
+            day = "ሰኞ"
+        case 3:
+            day = "ማግሰኞ"
+        case 4:
+            day = "ረቡዕ"
+        case 5:
+            day = "ሐሙስ"
+        case 6:
+            day = "አርብ"
+        case 0:
+            day = "ቅዳሜ"
+    return day
+
+
 def findMebajaHamer(metk):
     pass
 
@@ -46,39 +70,24 @@ def findAmeteWengelawe(year):
     keri = (year+5500) % 4
     match keri:
         case 1:
-            wengelawe = ["Mathewos", 1]
+            wengelawe = "ማቴዎስ"
         case 2:
-            wengelawe = ["Markos", 2]
+            wengelawe = "ማርቆስ"
         case 3:
-            wengelawe = ["Lukas", 3]
+            wengelawe = "ሉቃስ"
         case 0:
-            wengelawe = ["Yohans", 0]
+            wengelawe = "ዮሐንስ"
     return wengelawe
 
 
 def findMeskerem1(year):
     tnte_kemer = (((year+5500)//4)+(year+5500)) % 7
-    match tnte_kemer:
-        case 1:
-            day = "Magsegno"
-        case 2:
-            day = "Rebue"
-        case 3:
-            day = "Hamus"
-        case 4:
-            day = "Arb"
-        case 5:
-            day = "Kidame"
-        case 6:
-            day = "Ehud"
+    tnteKemer = {2: 'ረቡዕ', 3: 'ሐሙስ', 4: 'አርብ',
+                 5: 'ቅዳሜ', 6: 'እሁድ', 0: 'ሰኞ', 1: 'ማግሰኞ'}
+    day = tnteKemer[tnte_kemer]
     return day
 
 
 if '__main__' == __name__:
-    print(findMeskerem1(2006))
-    print(findAmeteWengelawe(year=2006))
-    medeb = findMedeb(2006)
-    wenber = findWenber(medeb)
-    abekte = findAbekte(wenber)
-    metk = findMetk(wenber)
-    print(findBealeMetk(metk))
+    year, month, date = [int(i) for i in input("Date: ").split('/')]
+    print(findDay(year, month, date))
