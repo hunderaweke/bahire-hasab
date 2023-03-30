@@ -1,4 +1,7 @@
 
+werat = {'መስከረም': 1, 'ጥቅምት': 2, 'ህዳር': 3, 'ታህሳስ': 4, 'ጥር': 5, 'የካቲት': 6,
+         'መጋቢት': 7, 'ሚያዚያ': 8, 'ግንቦት': 9, 'ሰኔ': 10, 'ሐምሌ': 11, 'ነሀሴ': 12, 'ጳጉሜን': 13}
+
 
 def findMedeb(year) -> int:
     medeb = (year+5500) % 19
@@ -25,7 +28,7 @@ def findMetk(wenber) -> int:
     return metk
 
 
-def findBealeMetk(metk):
+def findBealeMetk(metk) -> str:
     if metk >= 15 and metk <= 30:
         beale_metk = f'መስከረም {metk}'
     elif metk >= 2 and metk <= 14:
@@ -33,7 +36,7 @@ def findBealeMetk(metk):
     return beale_metk
 
 
-def findDay(year, month, date):
+def findDay(year, month, date) -> str:
     meskerem1 = findMeskerem1(year)
     tnteYon = {'ረቡዕ': 1, 'ሐሙስ': 2, 'አርብ': 3,
                'ቅዳሜ': 4, 'እሁድ': 5, 'ሰኞ': 6, 'ማግሰኞ': 7}
@@ -79,7 +82,27 @@ def findMeskerem1(year):
     day = tnteKemer[tnte_kemer]
     return day
 
-def findNeneweh(mebaja)
+
+def findNeneweh(mebaja_hamer):
+    if 15 <= mebaja_hamer <= 30:
+        wer = 'ጥር'
+    else:
+        wer = 'የካቲት'
+    neneweh = f'{wer} {mebaja_hamer}'
+    return neneweh
+
+
+def findAbiyTsome(neneweh):
+    wer = [i for i in neneweh.split()]
+    mebaja_hamer = int(wer[1])
+    wer = wer[0]
+    abiy_tsome_tewsak = 14+mebaja_hamer
+    if abiy_tsome_tewsak > 30:
+        abiy_tsome_tewsak -= 30
+    abiy_tsome_wer = 'የካቲት'
+    abiy_tsome = f'{abiy_tsome_wer} {abiy_tsome_tewsak}'
+    return abiy_tsome
+
 
 if '__main__' == __name__:
     year = int(input("Year: "))
@@ -88,4 +111,6 @@ if '__main__' == __name__:
     metk = findMetk(wenber)
     beale_metk = findBealeMetk(metk)
     mebaja_hamer = findMebajaHamer(beale_metk, year)
-    print(mebaja_hamer)
+    neneweh = findNeneweh(mebaja_hamer)
+    abiytsome = findAbiyTsome(neneweh)
+    print(abiytsome)
