@@ -141,8 +141,8 @@ def findTnsae(hosaena):
 def findRkbeKahnat(tnsae):
     wer, ken = [i for i in tnsae.split()]
     ken = int(ken)
-    rkbeKen = ken+9
-    
+    rkbeKen = ken+24
+    rkbeWer = '
     rkbe = f"{wer} {rkbeKen}"
 if '__main__' == __name__:
     year = int(input("Year: "))
