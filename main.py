@@ -16,15 +16,12 @@ def findWenber(medeb) -> int:
 def findAbekte(wenber) -> int:
     abekte = wenber*11
     if abekte > 30:
-        abekte -= 30
-    else:
-        pass
+        abekte %= 30
     return abekte
 
 
-def findMetk(wenber) -> int:
-    abekte = findAbekte(wenber)
-    metk = abs(abekte-30)
+def findMetk(abekte) -> int:
+    metk = abs(30-abekte)
     return metk
 
 
@@ -33,6 +30,9 @@ def findBealeMetk(metk) -> str:
         beale_metk = f'መስከረም {metk}'
     elif metk >= 2 and metk <= 14:
         beale_metk = f'ጥቅምት {metk}'
+    else:
+        metk = metk-30
+        beale_metk = findBealeMetk(metk)
     return beale_metk
 
 
@@ -104,13 +104,57 @@ def findAbiyTsome(neneweh):
     return abiy_tsome
 
 
+def findDebreZeyt(neneweh):
+    wer, ken = [i for i in neneweh.split()]
+    ken = int(ken)
+    debrezeytKen = (ken+41) % 30
+    debzeytWer = 'መጋቢት' if wer == 'የካቲት' or (
+        wer == 'ጥር' and ken >= 20) else 'የካቲት'
+    debrezeyt = f'{debzeytWer} {debrezeytKen}'
+    return debrezeyt
+
+
+def findHosaena(neneweh):
+    wer, ken = [i for i in neneweh.split()]
+    ken = int(ken)
+    hosaenaKen = (ken+62) % 30
+    hosaenaWer = 'መጋቢት' if (wer == 'ጥር' and ken <= 17) else 'ሚያዚያ'
+    hosaena = f'{hosaenaWer} {hosaenaKen}'
+    return hosaena
+
+
+def findSeklet(hosaena):
+    wer, ken = [i for i in hosaena.split()]
+    ken = int(ken)
+    skletKen = ken+5
+    sklet = f"{wer} {skletKen}"
+    return sklet
+
+
+def findTnsae(hosaena):
+    wer, ken = [i for i in hosaena.split()]
+    ken = int(ken)
+    tnsaeKen = ken+7
+    tnsae = f"{wer} {tnsaeKen}"
+    return tnsae
+
+def findRkbeKahnat(tnsae):
+    wer, ken = [i for i in tnsae.split()]
+    ken = int(ken)
+    rkbeKen = ken+9
+    
+    rkbe = f"{wer} {rkbeKen}"
 if '__main__' == __name__:
     year = int(input("Year: "))
     medeb = findMedeb(year)
     wenber = findWenber(medeb)
-    metk = findMetk(wenber)
-    beale_metk = findBealeMetk(metk)
-    mebaja_hamer = findMebajaHamer(beale_metk, year)
-    neneweh = findNeneweh(mebaja_hamer)
-    abiytsome = findAbiyTsome(neneweh)
-    print(abiytsome)
+    abekte = findAbekte(wenber)
+    metk = findMetk(abekte)
+    bealemetk = findBealeMetk(metk)
+    mebajaHamer = findMebajaHamer(bealemetk, year)
+    neneweh = findNeneweh(mebajaHamer)
+    abiy = findAbiyTsome(neneweh)
+    debrezeyt = findDebreZeyt(neneweh)
+    hosaena = findHosaena(neneweh)
+    sklet = findSeklet(hosaena)
+    tnsae = findTnsae(hosaena)
