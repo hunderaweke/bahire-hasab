@@ -226,3 +226,63 @@ def findTsomeFilseta(year):
     day_meyazha = findDayInYear(date_meyazha, year)
     return day_meyazha, day_mefcha
 
+
+def run():
+    user_input = sys.argv[1:]
+    parser = argparse.ArgumentParser(
+        description="A CLI app for printing the days of Ethiopian Holidays According to the Ethiopan Calendar")
+    parser.add_argument(
+        "-a",
+        "--all",
+        help="Prints the list of all Ethiopian Holidays as One table",
+        action="store_true",
+    )
+    parser.add_argument(
+        "-n",
+        "--new-year",
+        help="Prints The Ethiopian New Year Day",
+        action="store_true",
+    )
+    parser.add_argument(
+        "-m",
+        "--meskel",
+        help="Prints the day of Meskel",
+        action="store_true",
+    )
+    parser.add_argument(
+        "-tn",
+        "--tsome_nebiyat",
+        help="Prints the day of Tsome Nebiyat",
+        action="store_true"
+    )
+    parser.add_argument(
+        "-g",
+        "--gena",
+        help="Prints the day of Gena(Ethiopian Christmas)",
+        action="store_true",
+    )
+    parser.add_argument(
+        "-tnn",
+        "--tsome-neneweh",
+        help="Prints the day of Tsome Neneweh",
+        action="store_true",
+    )
+    parser.add_argument(
+        '-ta',
+        "abiy-tsome",
+        help="Prints the date and day of Abiy Tsome(Great Lent)",
+        action="store_true",
+    )
+    parser.add_argument(
+        "-dz",
+        "--debre-zeyt",
+        help="Prints the day of Debre Zeyt",
+        action="store_true",
+    )
+    parser.add_argument(
+        
+    )
+
+
+if __name__ == '__main__':
+    run()
