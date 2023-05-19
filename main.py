@@ -1,6 +1,22 @@
-
+import argparse
+import tabulate
+import sys
 werat = {'መስከረም': 1, 'ጥቅምት': 2, 'ህዳር': 3, 'ታህሳስ': 4, 'ጥር': 5, 'የካቲት': 6,
          'መጋቢት': 7, 'ሚያዚያ': 8, 'ግንቦት': 9, 'ሰኔ': 10, 'ሐምሌ': 11, 'ነሀሴ': 12, 'ጳጉሜን': 13}
+
+
+def findDayInYear(date, year):
+    kenat = {1: 'እሁድ', 2: 'ሰኞ', 3: 'ማክሰኞ',
+             4: 'ረቡዕ', 5: 'ሐሙስ', 6: 'አርብ', 0: 'ቅዳሜ'}
+    wer, ken = [i for i in date.split()]
+    ken = int(ken)
+    tnteYon = ((((year+5500) // 4)+(5500+year)) % 7)-1
+    global werat
+    atsfeWer = 2*(werat[wer])
+    dmere = atsfeWer+ken+tnteYon
+    dmere %= 7
+    day = kenat[dmere]
+    return day
 
 
 def findMedeb(year) -> int:
@@ -53,9 +69,9 @@ def findMebajaHamer(beale_metk, year):
     Tewsak = {'ቅዳሜ': 8, 'እሁድ': 7, 'ሰኞ': 6,
               'ማግሰኞ': 5, 'ረቡዕ': 4, 'ሐሙስ': 3, 'አርብ': 2}
     Months = {'መስከረም': 1, 'ጥቅምት': 2}
-    beale_metk = [i for i in beale_metk.split()]
-    month = Months[beale_metk[0]]
-    day = findDay(year, month, int(beale_metk[1]))
+    bealeMetk = [i for i in beale_metk.split()]
+    month = Months[bealeMetk[0]]
+    day = findDayInYear(beale_metk, year)
     tewsak = Tewsak[day]
     mebaja_hamer = tewsak+metk if tewsak + metk < 30 else tewsak
     return mebaja_hamer
@@ -138,23 +154,75 @@ def findTnsae(hosaena):
     tnsae = f"{wer} {tnsaeKen}"
     return tnsae
 
+
 def findRkbeKahnat(tnsae):
     wer, ken = [i for i in tnsae.split()]
     ken = int(ken)
     rkbeKen = ken+24
-    rkbeWer = '
-    rkbe = f"{wer} {rkbeKen}"
-if '__main__' == __name__:
-    year = int(input("Year: "))
-    medeb = findMedeb(year)
-    wenber = findWenber(medeb)
-    abekte = findAbekte(wenber)
-    metk = findMetk(abekte)
-    bealemetk = findBealeMetk(metk)
-    mebajaHamer = findMebajaHamer(bealemetk, year)
-    neneweh = findNeneweh(mebajaHamer)
-    abiy = findAbiyTsome(neneweh)
-    debrezeyt = findDebreZeyt(neneweh)
-    hosaena = findHosaena(neneweh)
-    sklet = findSeklet(hosaena)
-    tnsae = findTnsae(hosaena)
+    if (wer == 'መጋቢት' and (54 >= ken >= 50) or (wer == 'ሚያዚያ' and 30 >= ken >= 24)):
+        rekbeWer = 'ሚያዚያ'
+    else:
+        rekbeWer = 'ግንቦት'
+    rkbeKen %= 30
+    rkbe = f"{rekbeWer} {rkbeKen}"
+    return rkbe
+
+
+def findErget(rkbe):
+    wer, ken = [i for i in rkbe.split()]
+    ken = int(ken)
+    ergetKen = (ken+15)
+    if (wer == 'ሚያዚያ' and 45 >= ken >= 35) or (wer == 'ግንቦት' and 15 >= ken >= 1):
+        ergetWer = 'ግንቦት'
+    else:
+        ergetWer = 'ሰኔ'
+    ergetKen %= 30
+    erget = f"{ergetWer} {ergetKen}"
+    return erget
+
+
+def findBealeHamsa(erget):
+    wer, ken = [i for i in erget.split()]
+    ken = int(ken)
+    bealeHamsaKen = ken+10
+    if (wer == 'ግንቦት' and 20 >= ken >= 5):
+        bealeHamsaWer = 'ግንቦት'
+    else:
+        bealeHamsaWer = 'ሰኔ'
+    bealeHamsaKen %= 30
+    bealeHamsa = f"{bealeHamsaWer} {bealeHamsaKen}"
+    return bealeHamsa
+
+
+def findTsomeHawaryat(bealeHamsa):
+    wer, ken = [i for i in bealeHamsa.split()]
+    ken = int(ken)
+    tsomeHawaryatKen = ken+1
+    if tsomeHawaryatKen > 30 and wer == 'ግንቦት':
+        tsomeHawaryatWer = 'ሰኔ'
+    else:
+        tsomeHawaryatWer = wer
+    tsomeHawaryatKen %= 30
+    tsomeHawaryat = f"{tsomeHawaryatWer} {tsomeHawaryatKen}"
+    return tsomeHawaryat
+
+
+def findTsomeDhnet(tsomeHawaryat):
+    wer, ken = [i for i in tsomeHawaryat.split()]
+    ken = int(ken)
+    tsomeDhnetKen = ken+2
+    if tsomeDhnetKen > 30 and wer == 'ግንቦት':
+        tsomeDhnetWer = 'ሰኔ'
+    else:
+        tsomeDhnetWer = wer
+    tsomeDhnet = f"{tsomeDhnetWer} {tsomeDhnetKen}"
+    return tsomeDhnet
+
+
+def findTsomeFilseta(year):
+    date_meyazha = 'ነሀሴ 1'
+    date_mefcha = 'ነሀሴ 16'
+    day_mefcha = findDayInYear(date_mefcha, year)
+    day_meyazha = findDayInYear(date_meyazha, year)
+    return day_meyazha, day_mefcha
+
