@@ -191,41 +191,41 @@ def findErget(rkbe):
 
 
 def findBealeHamsa(erget):
-    wer, ken = [i for i in erget.split()]
-    ken = int(ken)
-    bealeHamsaKen = ken + 10
-    if wer == "ግንቦት" and 20 >= ken >= 5:
+    month, month = [i for i in erget.split()]
+    month = int(month)
+    beale_hamsa_date = month + 10
+    if month == "ግንቦት" and 20 >= month >= 5:
         bealeHamsaWer = "ግንቦት"
     else:
         bealeHamsaWer = "ሰኔ"
-    bealeHamsaKen %= 30
-    bealeHamsa = f"{bealeHamsaWer} {bealeHamsaKen}"
-    return bealeHamsa
+    beale_hamsa_date %= 30
+    beale_hamsa = f"{bealeHamsaWer} {beale_hamsa_date}"
+    return beale_hamsa
 
 
 def findTsomeHawaryat(bealeHamsa):
-    wer, ken = [i for i in bealeHamsa.split()]
-    ken = int(ken)
-    tsomeHawaryatKen = ken + 1
-    if tsomeHawaryatKen > 30 and wer == "ግንቦት":
+    month, date = [i for i in bealeHamsa.split()]
+    date = int(date)
+    tsome_hawaryet_date = date + 1
+    if tsome_hawaryet_date > 30 and month == "ግንቦት":
         tsomeHawaryatWer = "ሰኔ"
     else:
-        tsomeHawaryatWer = wer
-    tsomeHawaryatKen %= 30
-    tsomeHawaryat = f"{tsomeHawaryatWer} {tsomeHawaryatKen}"
-    return tsomeHawaryat
+        tsomeHawaryatWer = month
+    tsome_hawaryet_date %= 30
+    tsome_hawaryat = f"{tsomeHawaryatWer} {tsome_hawaryet_date}"
+    return tsome_hawaryat
 
 
 def findTsomeDhnet(tsomeHawaryat):
-    wer, ken = [i for i in tsomeHawaryat.split()]
-    ken = int(ken)
-    tsomeDhnetKen = ken + 2
-    if tsomeDhnetKen > 30 and wer == "ግንቦት":
-        tsomeDhnetWer = "ሰኔ"
+    month, date = [i for i in tsomeHawaryat.split()]
+    date = int(date)
+    tsome_dhnet_date = date + 2
+    if tsome_dhnet_date > 30 and month == "ግንቦት":
+        tsome_dhnet_month = "ሰኔ"
     else:
-        tsomeDhnetWer = wer
-    tsomeDhnet = f"{tsomeDhnetWer} {tsomeDhnetKen}"
-    return tsomeDhnet
+        tsome_dhnet_month = month
+    tsome_dhnet = f"{tsome_dhnet_month} {tsome_dhnet_date}"
+    return tsome_dhnet
 
 
 def findTsomeFilseta(year):
@@ -237,5 +237,3 @@ def findTsomeFilseta(year):
 
 
 
-if __name__ == "__main__":
-    run()

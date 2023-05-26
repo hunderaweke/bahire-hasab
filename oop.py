@@ -165,3 +165,43 @@ class Calendar:
         erget_date %= 30
         self.erget = f"{erget_month} {erget_date}"
         return self.erget
+    def find_beale_hamsa(self):
+        "A function for calculating the date of Beale hamsa in Ethiopian Calendar."
+        month,date = [_ for _ in self.erget.split()]
+        month = int(month)
+        beale_hamsa_date = month + 10
+        if month == "ግንቦት" and 20 >= month >= 5:
+            bealeHamsaWer = "ግንቦት"
+        else:
+            bealeHamsaWer = "ሰኔ"
+        beale_hamsa_date %= 30
+        self.beale_hamsa = f"{bealeHamsaWer} {beale_hamsa_date}"
+        return self.beale_hamsa
+    def find_tsome_hawaryat(self):
+        "A function for finding the date of Tsome Hawaryat (Lent of The Apostels) in Ethiopian Calendar"
+        month, date = [i for i in self.beale_hamsa.split()]
+        date = int(date)
+        tsome_hawaryet_date = date + 1
+        if tsome_hawaryet_date > 30 and month == "ግንቦት":
+            tsomeHawaryatWer = "ሰኔ"
+        else:
+            tsomeHawaryatWer = month
+        tsome_hawaryet_date %= 30
+        self.tsome_hawaryat = f"{tsomeHawaryatWer} {tsome_hawaryet_date}"
+        return self.tsome_hawaryat
+    def find_tsome_dhnet(self):
+        month, date = [i for i in self.tsome_hawaryat.split()]
+        date = int(date)
+        tsome_dhnet_date = date + 2
+        if tsome_dhnet_date > 30 and month == "ግንቦት":
+            tsome_dhnet_month = "ሰኔ"
+        else:
+            tsome_dhnet_month = month
+        self.tsome_dhnet = f"{tsome_dhnet_month} {tsome_dhnet_date}"
+        return self.tsome_dhnet
+    def find_tsome_filseta(self):
+        date_meyazha = "ነሀሴ 1"
+        date_mefcha = "ነሀሴ 16"
+        self.day_mefcha = Calendar.find_day_name(date_mefcha)
+        self.day_meyazha = Calendar.find_day_name(date_meyazha)
+        return self.day_meyazha, self.day_mefcha
