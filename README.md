@@ -9,7 +9,7 @@
 ## Description
 - This is a python Installation module for Ethiopian Calender method for determining the dates of lents and holidays or in Amharic Bahire Hassab ባህረ ሐሳብ
 - I have used the native calculation method If you want the book I used you can find it [](#)
-- Each of the names I used in the module is mostly the Amharic Equivalent of the holiday if you want all you can get it [here](#).
+- Each of the names I used in the module is mostly the Amharic Equivalent of the holiday if you want all you can get it <a href="https://drive.google.com/file/d/1e7AukagokWlEiuz_0YtZ8Oz3RcUoQaLC/view?usp=sharing" target="_blank">Click Here!</a>.
 ## Installation
 - Bahire Hassab is available now on [](#https://pypi.org/)
 - You can Install it through pip by
