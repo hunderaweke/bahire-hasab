@@ -1,6 +1,3 @@
-import argparse
-import tabulate
-import sys
 
 werat = {
     "መስከረም": 1,
@@ -152,6 +149,8 @@ def findSeklet(hosaena):
     wer, ken = [i for i in hosaena.split()]
     ken = int(ken)
     skletKen = ken + 5
+    if skletKen> 30:
+        skletKen%=30
     sklet = f"{wer} {skletKen}"
     return sklet
 
@@ -160,6 +159,8 @@ def findTnsae(hosaena):
     wer, ken = [i for i in hosaena.split()]
     ken = int(ken)
     tnsaeKen = ken + 7
+    if tnsaeKen>30:
+        tnsaeKen%=30
     tnsae = f"{wer} {tnsaeKen}"
     return tnsae
 
@@ -235,96 +236,6 @@ def findTsomeFilseta(year):
     day_meyazha = findDayInYear(date_meyazha, year)
     return day_meyazha, day_mefcha
 
-
-def run():
-    user_input = sys.argv[1:]
-    parser = argparse.ArgumentParser(
-        description="A CLI app for printing the days of Ethiopian Holidays According to the Ethiopan Calendar"
-    )
-    parser.add_argument(
-        "-a",
-        "--all",
-        help="Prints the list of all Ethiopian Holidays as One table",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-n",
-        "--new-year",
-        help="Prints The Ethiopian New Year Day",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-m",
-        "--meskel",
-        help="Prints the day of Meskel",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-tn",
-        "--tsome_nebiyat",
-        help="Prints the day of Tsome Nebiyat",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-g",
-        "--gena",
-        help="Prints the day of Gena(Ethiopian Christmas)",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-tnn",
-        "--tsome-neneweh",
-        help="Prints the day of Tsome Neneweh",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-ta",
-        "abiy-tsome",
-        help="Prints the date and day of Abiy Tsome(Great Lent)",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-dz",
-        "--debre-zeyt",
-        help="Prints the day of Debre Zeyt",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-hs",
-        "--hosaena",
-        help="Prints the date of hosaena",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-st",
-        "--siklet",
-        help="Prints the date of siklet",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-f",
-        "--fasika",
-        help="Prints the date of fasika",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-er",
-        "--erget",
-        help="Prints the date of Erget",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-bh",
-        "--beale-hamsa",
-        help="Prints the date of Beale Hamsa",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-tf",
-        "--tsome-filseta",
-        help="Prints the day of Tsome Filseta",
-        action="store_true",
-    )
 
 
 if __name__ == "__main__":
