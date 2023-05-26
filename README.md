@@ -1,5 +1,6 @@
 <h1 align="center">📆 Bahire Hassab(ባህረ ሐሳብ) 🇪🇹 📦 </h1>
-
+ 
+- A python module for calculating Ethiopian Holidays and Lents
 ## Table Of Content
 - [Description](#description)
 - [Installation](#installation)
