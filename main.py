@@ -118,7 +118,6 @@ def findNeneweh(mebaja_hamer):
 def findAbiyTsome(neneweh):
     wer = [i for i in neneweh.split()]
     mebaja_hamer = int(wer[1])
-    wer = wer[0]
     abiy_tsome_tewsak = 14 + mebaja_hamer
     if abiy_tsome_tewsak > 30:
         abiy_tsome_tewsak -= 30
@@ -179,15 +178,15 @@ def findRkbeKahnat(tnsae):
 
 
 def findErget(rkbe):
-    wer, ken = [i for i in rkbe.split()]
-    ken = int(ken)
-    ergetKen = ken + 15
-    if (wer == "ሚያዚያ" and 45 >= ken >= 35) or (wer == "ግንቦት" and 15 >= ken >= 1):
-        ergetWer = "ግንቦት"
+    month, date = [i for i in rkbe.split()]
+    date = int(date)
+    erget_date = date + 15
+    if (month == "ሚያዚያ" and 45 >= date >= 35) or (month == "ግንቦት" and 15 >= date >= 1):
+        erget_month = "ግንቦት"
     else:
-        ergetWer = "ሰኔ"
-    ergetKen %= 30
-    erget = f"{ergetWer} {ergetKen}"
+        erget_month = "ሰኔ"
+    erget_date %= 30
+    erget = f"{erget_month} {erget_date}"
     return erget
 
 
