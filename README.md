@@ -29,8 +29,9 @@ print(eth_easter)
 - The method names are home how different from most methods that we know since I used most of them in Amharic there is their Equivalent in English
 
 |Method|English Equivalent|Description|
-|:-----|   :-----------:  |      ----:|
+|:-----|:-----------:  |     :----|
 |new_year|Ethiopian New Year|The day of new year in Amharic|
+|meskel|Ethiopian Feast of Cross|The Date of the feast of cross in Amharic|
 ## Todo
 - [x] Releasing the package to pypi.org
 - [ ] Making API for it
