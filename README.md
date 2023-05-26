@@ -1,9 +1,11 @@
-## Bahire Hassab(ባህረ ሐሳብ)
-- [Bahire Hassab(ባህረ ሐሳብ)](#bahire-hassabባህረ-ሐሳብ)
+<h1 align="center">📆 Bahire Hassab(ባህረ ሐሳብ) 🇪🇹 📦 </h1>
+
+
+## Table Of Content
 - [Description](#description)
 - [Installation](#installation)
 - [Documentation](#documentation)
-- [Todo](#Todo)
+- [Todo](#todo)
 ## Description
 - This is a python Installation module for Ethiopian Calender method for determining the dates of lents and holidays or in Amharic Bahire Hassab ባህረ ሐሳብ
 - I have used the native calculation method If you want the book I used you can find it [](#here)
