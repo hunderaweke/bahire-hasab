@@ -1,5 +1,5 @@
 from setuptools import setup,find_packages
-with open("./README.mdhVfAVmUY38chFqshVfAVmUY38chFqs","r") as file:
+with open("./README.md","r") as file:
     long_description = file.read()
 setup(
     name='bahire-hasab',
