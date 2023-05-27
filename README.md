@@ -1,4 +1,7 @@
 <h1 align="center">📆 Bahire Hassab(ባህረ ሐሳብ) 🇪🇹 📦 </h1>
+
+ [![Upload Python Package](https://github.com/hunderaweke/bahire-hasab/actions/workflows/python-publish.yml/badge.svg)](https://github.com/hunderaweke/bahire-hasab/actions/workflows/python-publish.yml)
+ 
  
 - A python module for calculating Ethiopian Holidays and Lents
 ## Table Of Content
