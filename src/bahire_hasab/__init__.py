@@ -23,7 +23,7 @@ class BahireHasab:
         }
         self.wengelawi_key = self.amete_alem % 4
         if self.wengelawi_key ==0:
-            self.wengelawi_key =4
+            self.wengelawi_key = 4
         self.wengelawi = self.wengelawi_dic[self.wengelawi_key]
         self.medeb = self.amete_alem % 19
         self.wenber = self.medeb - 1 if self.medeb > 0 else 18
@@ -34,6 +34,7 @@ class BahireHasab:
         self.beale_metk = self.find_beale_metk()
         self.mebaja_hamer = self.find_mebaja_hamer()
         self.tnte_kemer = ((self.amete_alem // 4) + self.amete_alem) % 7
+        self.new_year=self.find_new_year()
         self.neneweh = self.find_neneweh()
         self.abiy_tsome = self.find_abiy_tsome()
         self.hosaena = self.find_hosaena()
@@ -82,15 +83,30 @@ class BahireHasab:
         elif metk >= 2 and metk <= 14:
             self.beale_metk = f"ጥቅምት {metk}"
         return self.beale_metk
+    def find_new_year(self) -> str:
+        "A function for finding the name of the day of Ethiopian New Year according to Ethiopian Calendar."
+        self.tnte_kemer = ((self.amete_alem // 4) + self.amete_alem) % 7
+        tnte_kemer_key = self.tnte_kemer
+        tnte_kemer_dic = {
+            2: "ረቡዕ",
+            3: "ሐሙስ",
+            4: "አርብ",
+            5: "ቅዳሜ",
+            6: "እሁድ",
+            0: "ሰኞ",
+            1: "ማግሰኞ",
+        }
+        self.new_year = tnte_kemer_dic[tnte_kemer_key]
+        return self.new_year
 
     def find_day_name(self, month_date_string: str) -> str:
         """A function for finding the name of the day of a given date in mm/dd format"""
+        tnte_yon_new_year = {"ረቡዕ":1,"ሐሙስ":2,"አረብ":3,"ቅዳሜ":4,"እሀድ":5,"ሰኞ":6,"ማግሰኞ":7}
+        self.new_year = self.find_new_year()
         days = {1: "እሁድ", 2: "ሰኞ", 3: "ማክሰኞ", 4: "ረቡዕ", 5: "ሐሙስ", 6: "አርብ", 0: "ቅዳሜ"}
         month, date = [_ for _ in month_date_string.split()]
         date = int(date)
         tnte_yon = (((self.amete_alem // 4) + (self.amete_alem)) % 7)-1
-        if tnte_yon == 0:
-            tnte_yon =2
         months = self.months
         doubled_month = 2 * (months[month])
         sum_akt = doubled_month + date + tnte_yon
@@ -105,23 +121,9 @@ class BahireHasab:
         self.day = self.find_day_name(month_date_string= beale_metk)
         metk = self.metk
         tewsak = TEWSAK[self.day]
+        print(metk)
         self.mebaja_hamer = tewsak + metk if tewsak + metk < 30 else tewsak
-        return self.mebaja_hamer
-
-    def find_new_year(self) -> str:
-        "A function for finding the name of the day of Ethiopian New Year according to Ethiopian Calendar."
-        tnte_kemer_key = self.tnte_kemer
-        tnte_kemer_dic = {
-            2: "ረቡዕ",
-            3: "ሐሙስ",
-            4: "አርብ",
-            5: "ቅዳሜ",
-            6: "እሁድ",
-            0: "ሰኞ",
-            1: "ማግሰኞ",
-        }
-        self.new_year = tnte_kemer_dic[tnte_kemer_key]
-        return self.new_year
+        return self.mebaja_hamer 
 
     def find_neneweh(self) -> str:
         "A function for finding the day of tsome Neneweh"
@@ -157,7 +159,7 @@ class BahireHasab:
         month, date = [_ for _ in self.neneweh.split()]
         date = int(date)
         hosaena_date = (date + 62) % 30
-        hosaena_month = "መጋቢት" if (month == "ጥር" and 17<=date <= 28) else "ሚያዚያ"
+        hosaena_month = "መጋቢት" if (month == "ጥር" and 17<= hosaena_date <= 28) else "ሚያዚያ"
         self.hosaena = f"{hosaena_month} {hosaena_date}"
         return self.hosaena
 
