@@ -1,6 +1,6 @@
 # Author: Hundera Awoke
 # Date: 26/5/2023 G.C.
-# Copyright
+# Copyright (c) 2023 Hundera Awoke
 class BahireHasab:
     def __init__(self, ametemihret) -> None:
         self.ametemihret = ametemihret
@@ -121,7 +121,6 @@ class BahireHasab:
         self.day = self.find_day_name(month_date_string= beale_metk)
         metk = self.metk
         tewsak = TEWSAK[self.day]
-        print(metk)
         self.mebaja_hamer = tewsak + metk if tewsak + metk < 30 else tewsak
         return self.mebaja_hamer 
 
