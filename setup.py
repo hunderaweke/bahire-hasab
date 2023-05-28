@@ -2,9 +2,9 @@ from setuptools import setup,find_packages
 with open("./README.md","r") as file:
     long_description = file.read()
 setup(
-    name='bahire-hasab',
+    name='bahire_hasab',
     author="Hundera Awoke",
-    version="0.2.1",
+    version="0.2.2",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author_email="hunderaweke@gmail.com",
