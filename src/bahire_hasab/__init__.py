@@ -149,48 +149,48 @@ class BahireHasab:
     @property
     def abiy_tsom(self):
         """A Function for finding the day of enterance of the Great lent according to the Ethiopian Calendar."""
-        return self.beal(beal=self.BEALAT[1])
+        return self.atswamat_webealat(beal=self.BEALAT[1])
 
     @property
     def debre_zeyt(self):
         """A function for finding the date of debrezeyt(The middle of Great lent)."""
-        return self.beal(beal=self.BEALAT[2])
+        return self.atswamat_webealat(beal=self.BEALAT[2])
 
     @property
     def hosaena(self):
         """A function for calculating the date of Hosaena in Ethiopian Calendar"""
-        return self.beal(beal=self.BEALAT[3])
+        return self.atswamat_webealat(beal=self.BEALAT[3])
 
     @property
     def sklet(self):
         """A function for calculating the date of Sklet(Crufication) in Ethiopian Calendar."""
-        return self.beal(beal=self.BEALAT[4])
+        return self.atswamat_webealat(beal=self.BEALAT[4])
 
     @property
     def tnsae(self):
         """A function for calculating the date of Tnsae(The end of Great lent) in Ethiopian Calendar."""
-        return self.beal(beal=self.BEALAT[5])
+        return self.atswamat_webealat(beal=self.BEALAT[5])
 
     @property
     def rkbe_kahnat(self):
         """A function for calculating the date of rkbe kahnat(The meeting of Priests) in Ethiopian Calendar."""
-        return self.beal(beal=self.BEALAT[6])
+        return self.atswamat_webealat(beal=self.BEALAT[6])
 
     @property
     def erget(self):
         """A function for calculating the date of Erget in Ethiopian Calendar."""
-        return self.beal(beal=self.BEALAT[7])
+        return self.atswamat_webealat(beal=self.BEALAT[7])
 
     @property
     def beale_hamsa(self):
         """A function for calculating the date of Beale hamsa in Ethiopian Calendar."""
-        return self.beal(beal=self.BEALAT[8])
+        return self.atswamat_webealat(beal=self.BEALAT[8])
 
     @property
     def tsome_hawaryat(self):
         """A function for finding the date of Tsome Hawaryat (Lent of The Apostels) in Ethiopian Calendar."""
-        return self.beal(beal=self.BEALAT[9])
+        return self.atswamat_webealat(beal=self.BEALAT[9])
 
     @property
     def tsome_dhnet(self):
-        return self.beal(beal=self.BEALAT[10])
+        return self.atswamat_webealat(beal=self.BEALAT[10])
