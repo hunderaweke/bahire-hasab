@@ -142,8 +142,11 @@ class BahireHasab:
         _nw, _nk = [_ for _ in self.neneweh.split()]
         _nk = int(_nk)
         _bk = _nk + _bt
-        _bw = self.WERAT[self.WERAT.index(_nw) + (_bk // 30)]
-        _bk = _bk % 30 if _bk > 30 else _bk
+        if _bk % 30 == 0:
+            _bw = self.WERAT[self.WERAT.index(_nw) + (_bk // 30) - 1]
+        else:
+            _bw = self.WERAT[self.WERAT.index(_nw) + (_bk // 30)]
+        _bk = _bk % 30 if _bk % 30 else 30
         return f"{_bw} {_bk}"
 
     @property
