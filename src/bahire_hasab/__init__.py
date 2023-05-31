@@ -125,7 +125,7 @@ class BahireHasab:
         _mh = self.mebaja_hamer
         if _mh > 30:
             _w = "የካቲት"
-            _mh % 30
+            _mh %= 30
         elif self.metk == 30 or self.metk == 0:
             _w = "የካቲት"
         elif _l[0] == "መስከረም":
