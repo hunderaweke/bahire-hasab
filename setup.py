@@ -5,7 +5,7 @@ with open("./README.md", "r") as file:
 setup(
     name="bahire-hasab",
     author="Hundera Awoke",
-    version="0.2.7",
+    version="0.2.7a",
     long_description=long_description,
     long_description_content_type="text/markdown",
     author_email="hunderaweke@gmail.com",

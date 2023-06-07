@@ -97,7 +97,7 @@ def main():
         '--log-level',
         help="Loglever setter for the cli.",
         choices=['debug', 'info', 'warning', 'error', 'critical'],
-        default='info'
+        default='info',
     )
     args: argparse.Namespace = parser.parse_args()
 
@@ -174,7 +174,6 @@ def main():
     table = zip(name, value)
     # --------------------------------------------
     if args.all:
-        logger.debug('showing table')
         print(tabulate(table, headers=heading,tablefmt="simple_grid"));
  
     for a, m in zip(arguments, methods):
