@@ -2,10 +2,8 @@
 # created by Hundera Awoke
 # May 28, 2023
 
-import argparse
-import datetime
-from tabulate import tabulate
-
+import logging
+from functools import cached_property
 
 class BahireHasab:
     """Object for  finding the Holidays and lents in the Ethiopian Calendar
@@ -13,7 +11,6 @@ class BahireHasab:
     Year : 2023 G.C.
     Copyright(c) 2023
     """
-
     TINTE_METIK = 49 % 30
     TINTE_ABEKTE = 161 % 30
     WERAT = [
@@ -50,65 +47,98 @@ class BahireHasab:
     ]
 
     ELETE_KEN = ["ረቡዕ", "ሐሙስ", "አርብ", "ቅዳሜ", "እሑድ", "ሰኞ", "ማክሰኞ"]
-
-    def __init__(self, year):
+    def __init__(self, year, logger=None):
         self.year = year if year else 2016
-
+        self.logger = logger or logging.getLogger(__name__)
+        self.logger.debug(f"Initializing Bahre Hasab: Year: {year}")
+        self.already_logged =False
+        
+    
     @property
     def wengelawi(self) -> str:
         """A function for findin the Wengelawi."""
+        self.logger.debug(f"Calculating wengelawi for year: {self.year}")
         _ = self.WENGELAWI[(self.year + 5500) % 4]
+        self.logger.debug(f"Wengelawi of {self.year} is {_}")
         return _
 
-    @property
+    @cached_property
     def medeb(self) -> int:
         """A function for finding medeb used in other calculations."""
-        medeb = (self.year + 5500) % 19
-        return medeb
+        _medeb = (self.year + 5500) % 19
+        already_logged = None
+        if already_logged==None:
+            already_logged = self.already_logged
+        if not already_logged:
+            self.logger.debug(f"Medeb Value returned: {_medeb}")
+            already_logged=True
+        return _medeb
 
-    @property
+    @cached_property
     def wenber(self) -> int:
         """A function for finding Wenber of the year."""
-        wenber = self.medeb - 1
-        return wenber if self.medeb else 18
+        _wenber = self.medeb -1
+        already_logged = self.already_logged
+        if not already_logged:
+            self.logger.debug(f"Wenber Returned {_wenber}")
+            already_logged = True
+        return _wenber if self.medeb else 18
 
-    @property
+    @cached_property
     def abekte(self) -> int:
         """A function for finding the abekte used for other calculations."""
-        abekte = self.wenber * self.TINTE_ABEKTE
-        if abekte > 30:
-            abekte %= 30
-        return abekte if abekte else 30
+        _abekte = self.wenber * self.TINTE_ABEKTE
+        if _abekte > 30:
+            _abekte %= 30
+        self.logger.debug(f"Returned Abekte: {_abekte}")
+        return _abekte if _abekte else 30
 
     @property
     def metene_rabiet(self) -> int:
         """A function for finding metene rabiet"""
         _m = (self.year + 5500) // 4
+        self.logger.debug(f"Calculated metene rabiet :{_m}")
         return _m
 
-    @property
+    @cached_property
     def metk(self) -> int:
         """A function for determinig metk used in other calculations."""
         _m = self.wenber * self.TINTE_METIK
+        already_logged = self.already_logged
+        if not already_logged:
+            self.logger.debug(f"Calulated metk: {_m}")
+            already_logged = True
+        self.already_logged = False
         return _m % 30 if _m else 30
 
     @property
     def beale_metk(self) -> str:
         """A function for finding the date of beale metk used for other calculations."""
         metk = self.metk
+        # self.logger.debug(f"Getting the metk: {metk}")
+        # already_logged = self.already_logged
         if 15 <= metk <= 30:
             beale_metk = f"መስከረም {self.metk}"
         elif 2 <= metk <= 14:
             beale_metk = f"ጥቅምት {self.metk}"
+        # if not already_logged:
+        #     self.logger.debug(f"Returned beale metk: {beale_metk}")
+        #     already_logged = True
         return beale_metk
-
     def elete_ken(self, elet) -> str:
         """A function for determinig the day name of the given date in Ethiopian Calendar. Input in mm/dd format"""
         elet = [i for i in elet.split()]
         atsfe_wer = (self.WERAT.index(elet[0]) + 1) * 2
         tnete_yon = (self.metene_rabiet + self.year + 5500) % 7 - 1
+        already_logged = self.already_logged
+        if not already_logged:
+            self.logger.debug(f"Getting elet :{elet}")
+            self.logger.debug(f"Getting atsfewer: {atsfe_wer}")
+            self.logger.debug(f"Getting tnteyon: {tnete_yon}")
+            already_logged = True
         ken = int(elet[-1])
         _ = (ken + tnete_yon + atsfe_wer) % 7
+        self.logger.debug(f"Returning elete_ken: {_}")
         return self.ELETAT[_]
 
     @property
@@ -142,6 +172,7 @@ class BahireHasab:
 
     def atswamat_webealat(self, beal) -> str:
         """A function for finding the respective events or Bealat in Ethiopian Calendar."""
+        self.logger.debug(f"Calculating the date of : {beal}")
         _bt = self.BEALAT_TEWSAK[self.BEALAT.index(beal)]
         if _bt == 0:
             return self.neneweh
@@ -153,6 +184,7 @@ class BahireHasab:
         else:
             _bw = self.WERAT[self.WERAT.index(_nw) + (_bk // 30)]
         _bk = _bk % 30 if _bk % 30 else 30
+        self.logger.debug(f"Returned: {_bw} {_bk}")
         return f"{_bw} {_bk}"
 
     @property
@@ -203,163 +235,3 @@ class BahireHasab:
     @property
     def tsome_dhnet(self):
         return self.atswamat_webealat(beal=self.BEALAT[10])
-
-
-def main():
-    parser = argparse.ArgumentParser(
-        description="Prints the dates of lents and holidays in a year for Ethiopian Calendar.",
-        formatter_class=argparse.MetavarTypeHelpFormatter,
-    )
-    parser.add_argument(
-        "Year",
-        default=None,
-        type=int,
-        help="Assings the year for the table",
-        nargs="?",
-    )
-    parser.add_argument(
-        "-a",
-        "--all",
-        help="Prints the table of lents and holidays in a year",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-n",
-        "--new-year",
-        help="Prints the day of the new year in Ethiopia Calendar.",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-tn",
-        "--tsome-neneweh",
-        help="Prints the day of Tsome neneweh in Ethiopia Calendar.",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-ats",
-        "--abiy-tsome",
-        help="Prints the day of the Abiy Tsome in Ethiopia Calendar.",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-dz",
-        "--debre-zeyt",
-        help="Prints the day of Debre Zeyt  in Ethiopia Calendar.",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-hs",
-        "--hosaena",
-        help="Prints the day of Hosaena in Ethiopia Calendar.",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-sk",
-        "--siklet",
-        help="Prints the day of HolyFriday in Ethiopia Calendar.",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-f",
-        "--fasika",
-        help="Prints the day of the Easter in Ethiopia Calendar.",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-er",
-        "--erget",
-        help="Prints the date of erget",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-bh",
-        "--beale_hamsa",
-        help="Prints the day of Pentecost in Ethiopia Calendar.",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-th",
-        "--tsome-hawaryat",
-        help="Prints the day of Tsome Hawaryat in Ethiopia Calendar.",
-        action="store_true",
-    )
-    parser.add_argument(
-        "-td",
-        "--tsome-dhnet",
-        help="Prints the day of Tsome Dhnet in Ethiopia Calendar.",
-        action="store_true",
-    )
-    args: argparse.Namespace = parser.parse_args()
-    # --------------------------------------------
-    # if args.Year == None:
-    # year = BahireHasab(datetime.datetime.now().year - 8)
-    # else:
-    year = BahireHasab(args.Year)
-    arguments = [
-        "new_year",
-        "tsome_neneweh",
-        "abiy_tsome",
-        "debre_zeyt",
-        "hosaena",
-        "siklet",
-        "fasika",
-        "erget",
-        "beale_hamsa",
-        "tsome_hawaryat",
-        "tsome_dhnet",
-    ]
-    methods = [
-        "new_year",
-        "neneweh",
-        "abiy_tsom",
-        "debre_zeyt",
-        "hosaena",
-        "sklet",
-        "tnsae",
-        "erget",
-        "beale_hamsa",
-        "tsome_hawaryat",
-        "tsome_dhnet",
-    ]
-    heading = ["በዓለት", "የሚውሉበት ቀን"]
-    name = [
-        "ዓመተ ምህረት፡",
-        "ወንጌላዊ፡",
-        "እንቁጣጣሽ፡",
-        "ጾመ ነነዌ፡",
-        "ዓቢይ ጾም፡",
-        "ደብረ ዘይት፡",
-        "ሆሳዕና፡",
-        "ስቅለት፡",
-        "ትንሳኤ፡",
-        "እርገት፡",
-        "ጰራቅሊጦስ፡",
-        "ጾመ ሐዋርያት፡",
-        "ጾመ ድኅነት፡",
-    ]
-    value = [
-        args.Year,
-        year.wengelawi,
-        year.new_year,
-        year.neneweh,
-        year.abiy_tsom,
-        year.debre_zeyt,
-        year.hosaena,
-        year.sklet,
-        year.tnsae,
-        year.erget,
-        year.beale_hamsa,
-        year.tsome_hawaryat,
-        year.tsome_dhnet,
-    ]
-    table = zip(name, value)
-    # --------------------------------------------
-    if args.all:
-        print(tabulate(table, headers=heading))
-    for a, m in zip(arguments, methods):
-        if getattr(args, a):
-            print(getattr(year, m))
-
-
-if __name__ == "__main__":
-    main()
