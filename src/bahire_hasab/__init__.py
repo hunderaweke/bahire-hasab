@@ -5,12 +5,14 @@
 import logging
 from functools import cached_property
 
+
 class BahireHasab:
     """Object for  finding the Holidays and lents in the Ethiopian Calendar
     Written by: Hundera Awoke
     Year : 2023 G.C.
     Copyright(c) 2023
     """
+
     TINTE_METIK = 49 % 30
     TINTE_ABEKTE = 161 % 30
     WERAT = [
@@ -47,13 +49,12 @@ class BahireHasab:
     ]
 
     ELETE_KEN = ["ረቡዕ", "ሐሙስ", "አርብ", "ቅዳሜ", "እሑድ", "ሰኞ", "ማክሰኞ"]
+
     def __init__(self, year, logger=None):
         self.year = year if year else 2016
         self.logger = logger or logging.getLogger(__name__)
         self.logger.debug(f"Initializing Bahre Hasab: Year: {year}")
-        self.already_logged =False
-        
-    
+
     @property
     def wengelawi(self) -> str:
         """A function for findin the Wengelawi."""
@@ -66,22 +67,14 @@ class BahireHasab:
     def medeb(self) -> int:
         """A function for finding medeb used in other calculations."""
         _medeb = (self.year + 5500) % 19
-        already_logged = None
-        if already_logged==None:
-            already_logged = self.already_logged
-        if not already_logged:
-            self.logger.debug(f"Medeb Value returned: {_medeb}")
-            already_logged=True
+        self.logger.debug(f"Medeb Value returned: {_medeb}")
         return _medeb
 
     @cached_property
     def wenber(self) -> int:
         """A function for finding Wenber of the year."""
-        _wenber = self.medeb -1
-        already_logged = self.already_logged
-        if not already_logged:
-            self.logger.debug(f"Wenber Returned {_wenber}")
-            already_logged = True
+        _wenber = self.medeb - 1
+        self.logger.debug(f"Wenber Returned {_wenber}")
         return _wenber if self.medeb else 18
 
     @cached_property
@@ -93,7 +86,7 @@ class BahireHasab:
         self.logger.debug(f"Returned Abekte: {_abekte}")
         return _abekte if _abekte else 30
 
-    @property
+    @cached_property
     def metene_rabiet(self) -> int:
         """A function for finding metene rabiet"""
         _m = (self.year + 5500) // 4
@@ -104,11 +97,7 @@ class BahireHasab:
     def metk(self) -> int:
         """A function for determinig metk used in other calculations."""
         _m = self.wenber * self.TINTE_METIK
-        already_logged = self.already_logged
-        if not already_logged:
-            self.logger.debug(f"Calulated metk: {_m}")
-            already_logged = True
-        self.already_logged = False
+        self.logger.debug(f"Calulated metk: {_m}")
         return _m % 30 if _m else 30
 
     @property
@@ -125,36 +114,36 @@ class BahireHasab:
         #     self.logger.debug(f"Returned beale metk: {beale_metk}")
         #     already_logged = True
         return beale_metk
+
     def elete_ken(self, elet) -> str:
         """A function for determinig the day name of the given date in Ethiopian Calendar. Input in mm/dd format"""
         elet = [i for i in elet.split()]
         atsfe_wer = (self.WERAT.index(elet[0]) + 1) * 2
         tnete_yon = (self.metene_rabiet + self.year + 5500) % 7 - 1
-        already_logged = self.already_logged
-        if not already_logged:
-            self.logger.debug(f"Getting elet :{elet}")
-            self.logger.debug(f"Getting atsfewer: {atsfe_wer}")
-            self.logger.debug(f"Getting tnteyon: {tnete_yon}")
-            already_logged = True
+        self.logger.debug(f"Getting elet :{elet}")
+        self.logger.debug(f"Getting atsfewer: {atsfe_wer}")
+        self.logger.debug(f"Getting tnteyon: {tnete_yon}")
         ken = int(elet[-1])
         _ = (ken + tnete_yon + atsfe_wer) % 7
         self.logger.debug(f"Returning elete_ken: {_}")
         return self.ELETAT[_]
 
-    @property
+    @cached_property
     def new_year(self):
         """A function for determining the day of the Ethiopian New year not the date but its name."""
         amete_alem = self.year + 5500
         _ = (amete_alem + self.metene_rabiet + 2) % 7
+        self.logger.debug(f"Returned new_year: {_}")
         return self.ELETAT[_]
 
     @property
     def mebaja_hamer(self):
         """A function for finding mebaja hamer important for other calculations."""
         _mh = self.metk + self.ELET_TEWSAK.get(self.elete_ken(self.beale_metk))
+        self.logger.debug(f"Returned Mebaja Hamer: {_mh}")
         return _mh
 
-    @property
+    @cached_property
     def neneweh(self) -> str:
         """A function for finding the date of Nenewh Lent."""
         _l = [i for i in self.beale_metk.split()]
@@ -168,6 +157,7 @@ class BahireHasab:
             _w = "ጥር"
         else:
             _w = "የካቲት"
+        self.logger.debug(f"Returned neneweh: {_w} {_mh}")
         return f"{_w} {_mh}"
 
     def atswamat_webealat(self, beal) -> str:

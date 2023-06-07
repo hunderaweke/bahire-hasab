@@ -1,17 +1,19 @@
 #!/usr/bin/env python3
 
-from tabulate import tabulate
-import datetime
 import argparse
-from bahire_hasab import BahireHasab
-import logging 
+import datetime
+import logging
 
+from tabulate import tabulate
+
+from bahire_hasab import BahireHasab
 
 
 def main():
     parser = argparse.ArgumentParser(
         description="Prints the dates of lents and holidays in a year for Ethiopian Calendar.",
         formatter_class=argparse.MetavarTypeHelpFormatter,
+        # add_help=False,
     )
     parser.add_argument(
         "Year",
@@ -93,27 +95,29 @@ def main():
         action="store_true",
     )
     parser.add_argument(
-        '-l',
-        '--log-level',
+        "-l",
+        "--log-level",
         help="Loglever setter for the cli.",
-        choices=['debug', 'info', 'warning', 'error', 'critical'],
-        default='info',
+        choices=["debug", "info", "warning", "error", "critical"],
+        default="info",
+        type=str.lower,
     )
     args: argparse.Namespace = parser.parse_args()
 
     log_level = args.log_level.upper()
-    
-    logging.basicConfig(format='%(asctime)s | %(funcName)s | %(message)s ', datefmt='%d-%b-%y %H:%M:%S', level=log_level)
+
+    logging.basicConfig(
+        format="%(asctime)s | %(funcName)s | %(message)s ",
+        datefmt="%d-%b-%y %H:%M:%S",
+        level=log_level if log_level else "INFO",
+    )
 
     logger = logging.getLogger(__name__)
     # --------------------------------------------
     if args.Year == None:
         year = BahireHasab(datetime.datetime.now().year - 8)
     else:
-        try:
-            year = BahireHasab(args.Year, logger=logger)
-        except:
-            logging.exception(f"{args.Year} caused an Error please try again by using integer.")
+        year = BahireHasab(args.Year, logger=logger)
     arguments = [
         "new_year",
         "tsome_neneweh",
@@ -174,11 +178,10 @@ def main():
     table = zip(name, value)
     # --------------------------------------------
     if args.all:
-        print(tabulate(table, headers=heading,tablefmt="simple_grid"));
- 
-    for a, m in zip(arguments, methods):
-        if getattr(args, a):
-            print(getattr(year, m))
+        print(tabulate(table, headers=heading, tablefmt="simple_grid"))
+    for _a, _m in zip(arguments, methods):
+        if getattr(args, _a):
+            print(getattr(year, _m))
 
 
 if __name__ == "__main__":
