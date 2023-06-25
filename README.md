@@ -52,6 +52,6 @@ print(eth_easter)# ሚያዚያ 8 this is for the Ethiopian year 2015
 
 ## Todo
 - [x] Releasing the package to pypi.org
-- [ ] Making API for it
+- [ ] Making API for it 
 - [ ] Support for Gregorian Calender
 - [x] Finding corner Canses  
